@@ -1,0 +1,35 @@
+﻿<div class="container" style="padding-top:15px">
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col pull-right"><button class="btn btn-primary " data-toggle="modal" data-target="#lecModal">Add lecturer</button></div>
+            </div>
+            <br />
+            <table style="width:100%" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable md">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">lecturer</th>
+                        <th class="mdl-data-table__cell--non-numeric">Staff No</th>
+
+                        <th class="mdl-data-table__cell--non-numeric">Department</th>
+                        <th class="mdl-data-table__cell--non-numeric">Admin</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="lecturer in lecturers" ng-click="open(student)">
+                        <td class="mdl-data-table__cell--non-numeric">{{lecturer.firstName + " " + lecturer.lastName}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{lecturer.staffNo}}</td>
+
+                        <td class="mdl-data-table__cell--non-numeric">{{lecturer.department.name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"><span ng-show="lecturer.isAdmin == 1">YES</span><span ng-show="lecturer.isAdmin == 0">NO</span></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Attendance - Login</title>
+    <link href="stylesheets/material.min.css" rel="stylesheet" />
+    <link href="stylesheets/main.css" rel="stylesheet" />
+</head>
+<body ng-app="app">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" style="position:relative">
+        <header class="mdl-layout__header" style="background-color: purple">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title">Attendance System</span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <a class="mdl-navigation__link" ui-sref="home">Home</a>
+                    <a class="mdl-navigation__link" href="">About us</a>
+                    <a class="mdl-navigation__link" href="">Sign up</a>
+                    <a class="mdl-navigation__link" href="">Login</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="mdl-layout__content" style="position:relative">
+            <ui-view class="page-content">
+
+
+            </ui-view>
+        </main>
+        <div class="mdl-spinner mdl-js-spinner " id="spinner"></div>
+    </div>
+    <!-- MDL Spinner Component -->
+  
+
+    <script src="javascripts/jquery-3.3.1.js"></script>
+    <script src="javascripts/material.js"></script>
+    <script src="javascripts/angular.js"></script>
+    <script src="javascripts/angular-ui-router.js"></script>
+    <script src="javascripts/loogedout.js"></script>
+</body>
+</html>

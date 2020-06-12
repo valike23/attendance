@@ -1,0 +1,43 @@
+﻿<h3>Manage Courses</h3>
+<div class="row">
+    
+    <div class="col">
+        <div class="row">
+            <div class="col pull-right"><button class="btn btn-primary " data-toggle="modal" data-target="#courseModal">Add course</button></div>
+        </div>
+        <br />
+        <table style="width:100%" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable md">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Course Name</th>
+                    <th class="mdl-data-table__cell--non-numeric">Course Code</th>
+
+                    <th class="mdl-data-table__cell--non-numeric">Department</th>
+                    <th class="mdl-data-table__cell--non-numeric">Lecturers</th>
+
+                    <th class="mdl-data-table__cell--non-numeric">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="course in courses" ng-click="open(student)">
+                    <td class="mdl-data-table__cell--non-numeric">{{course.name}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{course.code}}</td>
+
+                    <td class="mdl-data-table__cell--non-numeric">{{course.department.name}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{course.lectures.length}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <button class="btn btn-sm btn-primary"   ng-click="openlec(course)"  title="Add lecturers">
+                        <i class="material-icons">
+                            person_add
+                        </i>
+                        </button>
+                     
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>

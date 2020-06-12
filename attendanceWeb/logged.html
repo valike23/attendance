@@ -1,0 +1,502 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>User Dashboard</title>
+    <link href="stylesheets/test.css" rel="stylesheet" />
+    <link href="stylesheets/bootstrap.css" rel="stylesheet" />
+    <link href="stylesheets/material.min.css" rel="stylesheet" />
+    <link href="stylesheets/loading.css" rel="stylesheet" />
+    <link href="stylesheets/main.css" rel="stylesheet" />
+    <link href="stylesheets/google-font.css" rel="stylesheet" />
+    <link href="stylesheets/fontawesome-free/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="stylesheets/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="dist/Chart.min.css" rel="stylesheet" />
+
+</head>
+<body ng-app="app">
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header ng-controller="navCtrl" class="mdl-layout__header" style="background-color: purple">
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span ui-sref="home" class="mdl-layout-title">Attendance System</span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation mdl-layout--large-screen-only">
+                    <a class="mdl-navigation__link" href="">Applications</a>
+                    <a class="mdl-navigation__link" href="">Contact Admin</a>
+                    <a class="mdl-navigation__link" href="">Notifications</a>
+                    <a class="mdl-navigation__link" ng-click="logout()">Log Out</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer" style="background-color:purple; color: white">
+            <span class="mdl-layout-title">staff page</span>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" ui-sref="home" style="color:white">Dashboard</a>
+                <a class="mdl-navigation__link" ui-sref="addstudent" style="color:white">Manage Student</a>
+                <a class="mdl-navigation__link" ui-sref="lecturer" style="color:white">Manage Lecturer</a>
+                <a class="mdl-navigation__link" ui-sref="class" style="color:white">Manage Class</a>
+                <a class="mdl-navigation__link" ui-sref="intelligence" style="color:white">Records</a>
+
+                <a class="mdl-navigation__link" style="color:white" ui-sref="app.courses">App Settings</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+            <ui-view class="page-content"></ui-view>
+        </main>
+    </div>
+    <div id="myModal" ng-controller="studentCtrl" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width:900px">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Student</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div ng-hide="showHand">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input ng-model="user.firstName" type="text" class="form-control" placeholder="first name">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input ng-model="user.lastName" type="text" class="form-control" placeholder="last name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Middle Name</label>
+                                        <input ng-model="user.middleName" type="text" class="form-control" placeholder="middle name">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" ng-model="user.email" class="form-control" placeholder="student's email">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Matriculation Number</label>
+                                        <input maxlength="10" type="text" ng-model="user.matNo" class="form-control" placeholder="must be unique">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Department</label>
+                                        <select ng-model="dept" ng-options="x.name for x in departments" class="form-control" placeholder="student Department"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="showHand">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Scanner Instruction</label>
+                                        <input type="text" ng-model="web.name" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-hide="showHand" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" ng-show="showHand" ng-click="switch(false)" class="btn btn-default">Return to Data</button>
+                    <button type="button" ng-show="showHand" class="btn btn-primary" ng-click="save()">Submit All</button>
+                    <button type="button" ng-hide="showHand" class="btn btn-primary" ng-click="switch(true)">Save Data</button>
+
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div id="lecModal" class="modal fade" tabindex="-1" role="dialog" ng-controller="lecturerCtrl">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Lecturer</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input ng-model="user.firstName" type="text" class="form-control" placeholder="first name">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input ng-model="user.lastName" type="text" class="form-control" placeholder="last name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Middle Name</label>
+                                    <input ng-model="user.middleName" type="text" class="form-control" placeholder="middle name">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>IsAdmin</label>
+                                    <select ng-model="user.isAdmin" class="form-control" placeholder="is  ADmin">
+                                        <option value="" disabled> Choose between Yes or No</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Staff Number</label>
+                                    <input type="text" ng-model="user.staffNo" class="form-control" placeholder="must be unique">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Department</label>
+                                    <select ng-model="user.deptId" class="form-control" placeholder="staff Department">
+                                        <option value="{{dept.id}}" ng-repeat="dept in departments">{{dept.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Staff Level</label>
+                                    <select ng-model="user.level" class="form-control" placeholder="is  ADmin">
+                                        <option value="" disabled> Choose One of the following Options</option>
+                                        <option value="Lecturer 1">Lecturer 1</option>
+                                        <option value="Lecturer 2">Lecturer 2</option>
+                                        <option value="Doctor">Doctor</option>
+                                        <option value="Associate Professor">Associate Professor</option>
+                                        <option value="Professor">Professor</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="save()">Save changes</button>
+
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div id="loader" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="ld ld-ring ld-spin-fast" style="font-size:64px;color:#8da"></div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div id="addClass" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Class</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body" ng-controller="classCtrl">
+                    <form ng-submit="subClass()">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <select required ng-model="selectedcourse" class="form-control" ng-options="x.name for x in courses"></select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <input ng-model="date" required type="date" class="form-control" placeholder="insert Date">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Period</label>
+                                    <input ng-model="period" required type="number" class="form-control" placeholder="class Period" max="3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" value="save" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div id="courseModal" class="modal fade" tabindex="-1" role="dialog" ng-controller="courseCtrl">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Course</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Course Name</label>
+                                    <input ng-model="data.name" type="text" class="form-control" placeholder="Insert course name">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Course Code</label>
+                                    <input ng-model="data.code" type="text" class="form-control" placeholder="Insert Course Code" maxlength="6">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Department</label>
+                                    <select ng-model="data.deptId" class="form-control" placeholder="staff Department">
+                                        <option value="{{dept.id}}" ng-repeat="dept in departments">{{dept.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="saveCourse()">Save changes</button>
+
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div id="deptModal" class="modal fade" tabindex="-1" role="dialog" ng-controller="courseCtrl">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Department</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Department Name</label>
+                                    <input ng-model="data.name" type="text" class="form-control" placeholder="Insert department name">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Department Code</label>
+                                    <input ng-model="data.code" type="text" class="form-control" placeholder="Insert department Code" maxlength="3">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="savedept()">Save changes</button>
+
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <div id="courseReg" class="modal fade" tabindex="-1" role="dialog" ng-controller="studentCtrl">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Register Courses</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <ul class="demo-list-control mdl-list">
+                        <li ng-repeat="course in courses" class="mdl-list__item">
+                            <span class="mdl-list__item-primary-content">
+                                <i class="material-icons  mdl-list__item-avatar">book</i>
+                                {{course.name}}
+                            </span>
+                            <span class="mdl-list__item-secondary-action">
+                                <!--<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="list-checkbox-1">
+                                    <input ng-click="checked($event, course)" type="checkbox" id="list-checkbox-1" class="mdl-checkbox__input"
+                                      />
+                                </label>-->
+                                <span ng-click="checked($event, course)" class=" checkme">
+
+                                </span>
+                           
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-click="submitCourses()" class="btn btn-success" data-dismiss="modal">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div id="myModal" ng-controller="studentCtrl" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="width:900px">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Student</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div ng-hide="showHand">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input ng-model="user.firstName" type="text" class="form-control" placeholder="first name">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input ng-model="user.lastName" type="text" class="form-control" placeholder="last name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Middle Name</label>
+                                        <input ng-model="user.middleName" type="text" class="form-control" placeholder="middle name">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" ng-model="user.email" class="form-control" placeholder="student's email">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Matriculation Number</label>
+                                        <input maxlength="10" type="text" ng-model="user.matNo" class="form-control" placeholder="must be unique">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Department</label>
+                                        <select ng-model="dept" ng-options="x.name for x in departments" class="form-control" placeholder="student Department"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="showHand">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Scanner Instruction</label>
+                                        <input type="text" ng-model="web.name" class="form-control" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-hide="showHand" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" ng-show="showHand" ng-click="switch(false)" class="btn btn-default">Return to Data</button>
+                    <button type="button" ng-show="showHand" class="btn btn-primary" ng-click="save()">Submit All</button>
+                    <button type="button" ng-hide="showHand" class="btn btn-primary" ng-click="switch(true)">Save Data</button>
+
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <script src="javascripts/jquery-3.3.1.js"></script>
+    <script src="javascripts/material.js"></script>
+
+    <script src="javascripts/angular.js"></script>
+    <script src="javascripts/angular-ui-router.js"></script>
+
+    <script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/logged.js"></script>
+    <script src="stylesheets/fontawesome-free/js/all.min.js"></script>
+    <script src="dist/Chart.min.js"></script>
+    <script src="dist/util.js"></script>
+</body>
+</html>

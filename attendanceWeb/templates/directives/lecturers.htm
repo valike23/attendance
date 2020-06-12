@@ -1,0 +1,20 @@
+﻿
+<table style="width:100%" class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+    <thead>
+        <tr >
+            <th>check</th>   
+                <th class="mdl-data-table__cell--non-numeric">Full Name</th>
+            <th>Staff ID</th>
+            <th>level</th>
+        </tr>
+    </thead>
+    <tbody >
+        <tr ng-repeat="lecturer in lecturers" >
+            <td><input ng-model="lecturer.checked" ng-change="addLecturer(lecturer)" type="checkbox" class="mdl-checkbox__input"></td>
+             <td class="mdl-data-table__cell--non-numeric">{{lecturer.firstName + " " + lecturer.lastName}}</td>
+            <td>{{lecturer.staffNo}}</td>
+            <td>{{lecturer.level}}</td>
+        </tr>
+      
+    </tbody>
+</table>

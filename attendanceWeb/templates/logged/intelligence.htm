@@ -1,0 +1,40 @@
+﻿<div class="container" style="padding-top:15px">
+    <h2>Records</h2>
+    <div class="row">
+        <div ng-click="getCourse(course.id)" class="col-xs-4 btn btn-primary " style="padding:4px" ng-repeat="course in courses">
+            <p>{{course.name}}</p>
+            <p><span>{{course.myclasses.length}}</span></p>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <h3>students</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">S/N</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Mat. No</th>
+
+                    <th scope="col">Attendance</th>
+                    <th scope="col">Total Classes</th>
+                    <th scope="col">Attendance %</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="student in students">
+                    <th scope="row">{{$index + 1}}</th>
+                    <td>{{student.firstName}}</td>
+                    <td>{{student.lastName}}</td>
+                    <td>{{student.matNo}}</td>
+                    <td>{{student.attendances.length}}</td>
+                    <td>{{course.myclasses.length}}</td>
+                    <td>{{student.attendances.length/course.myclasses.length * 100 + "%"}}</td>
+                </tr>
+              
+            </tbody>
+        </table>
+    </div>
+</div>

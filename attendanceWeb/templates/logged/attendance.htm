@@ -1,0 +1,56 @@
+﻿<div class="container" style="padding-top:15px">
+    <div class="row">
+        <h1>{{myClass.name}} ( <small>{{myClass.date| date: small}}</small>)</h1> <button class="btn btn-danger btn-lg pull-right" ng-click="stopClass()"> Stop Class</button>
+    </div>
+
+    <div class="row">
+        <div class="col" style="border:1px solid black; height:calc(100vh/3.4); margin:70px">
+
+        </div>
+        <div class="col" style="border:1px solid black; height:calc(100vh/3.4); margin:70px">
+
+        </div>
+    </div>
+    <!--<div class="row">
+        <div class="col">
+            <input class="form-control" style="height:40px" ng-blur="confirmMat()" type="text" placeholder="Insert Matriculation Number to start Process" ng-model="matNo" />
+        </div>
+
+    </div>-->
+    <br /><br />
+    <div class="row">
+        <div class="col">
+            <textarea disabled class="form-control" rows="4" type="text" ng-model="instruction" />
+        </div>
+
+    </div>
+    <h3>Attendance</h3>
+    <div class="row">
+
+        <div class="col">
+            <table style="width:100%" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable md">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Student</th>
+                        <th class="mdl-data-table__cell--non-numeric">Matriculation Number</th>
+
+                        <th class="mdl-data-table__cell--non-numeric">Department</th>
+                        <th class="mdl-data-table__cell--non-numeric">Time</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="lecturer in lecturers" ng-click="open(student)">
+                        <td class="mdl-data-table__cell--non-numeric">{{lecturer.firstName + " " + lecturer.lastName}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{lecturer.staffNo}}</td>
+
+                        <td class="mdl-data-table__cell--non-numeric">{{lecturer.department.name}}</td>
+                        <td class="mdl-data-table__cell--non-numeric"><span ng-show="lecturer.isAdmin == 1">YES</span><span ng-show="lecturer.isAdmin == 0">NO</span></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

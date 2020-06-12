@@ -1,0 +1,25 @@
+﻿<div>
+
+    <div class="demo-card-square mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand">
+            <h2 class="mdl-card__title-text">Attendance Login</h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div class="form-group">
+                <label for="staffID">StaffID</label>
+                <input type="text" class="form-control" ng-model="user" placeholder="staffID">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" ng-model="password" placeholder="Password">
+            </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+            <!-- Raised button with ripple -->
+            <button id="login" ng-click="login()" style="background-color:purple;color: white" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect ">
+               Login
+            </button>
+
+        </div>
+    </div>
+</div>
